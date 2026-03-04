@@ -193,8 +193,8 @@ resource "google_project_iam_member" "dbt_bigquery_job_user" {
 
 # Workflow orchestrates the ELT pipeline
 resource "google_workflows_workflow" "workflow" {
-  name            = "retail-dsy-workflow"
-  description     = "Retail Dataset Workflow"
+  name            = "omza-dsy-workflow"
+  description     = "omza Dataset Workflow"
   source_contents = local.workflow_yaml  # Loaded from locals.tf
   region          = var.region
   service_account = google_service_account.service_account.email
@@ -202,7 +202,7 @@ resource "google_workflows_workflow" "workflow" {
 
 # Trigger workflow on GCS file uploads
 resource "google_eventarc_trigger" "trigger" {
-  name            = "retail-dsy-trigger"
+  name            = "omza-dsy-trigger"
   location        = "eu"
   service_account = google_service_account.service_account.email
 
@@ -247,7 +247,7 @@ resource "google_cloudbuild_trigger" "terraform_all_branches" {
 
 # Trigger workflow on GCS file uploads
 resource "google_eventarc_trigger" "trigger" {
-  name            = "retail-dsy-trigger"
+  name            = "omza-dsy-trigger"
   location        = "eu"
   service_account = google_service_account.service_account.email
 
@@ -266,5 +266,25 @@ resource "google_eventarc_trigger" "trigger" {
   # Trigger workflow
   destination {
     workflow = google_workflows_workflow.workflow.id
+  }
+}
+# CI/CD trigger for all branches
+resource "google_cloudbuild_trigger" "terraform_all_branches" {
+  name        = var.cloudbuild_trigger_name
+  description = "Run Terraform pipeline on every branch push"
+
+  github {
+    owner = var.github_owner
+    name  = var.github_repo_name
+    push {
+      branch = var.cloudbuild_trigger_branch_regex  # ".*" = all branches
+    }
+  }
+
+  filename = "cloudbuild.yaml"
+
+  substitutions = {
+    _TF_STATE_BUCKET = var.tf_state_bucket
+    _TF_STATE_PREFIX = var.tf_state_prefix
   }
 }
