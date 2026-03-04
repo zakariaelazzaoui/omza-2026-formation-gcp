@@ -244,3 +244,27 @@ resource "google_cloudbuild_trigger" "terraform_all_branches" {
     _TF_STATE_PREFIX = var.tf_state_prefix
   }
 }
+
+# Trigger workflow on GCS file uploads
+resource "google_eventarc_trigger" "trigger" {
+  name            = "retail-dsy-trigger"
+  location        = "eu"
+  service_account = google_service_account.service_account.email
+
+  # Match on file finalized events
+  matching_criteria {
+    attribute = "type"
+    value     = "google.cloud.storage.object.v1.finalized"
+  }
+
+  # Only for our specific bucket
+  matching_criteria {
+    attribute = "bucket"
+    value     = google_storage_bucket.bucket.name
+  }
+
+  # Trigger workflow
+  destination {
+    workflow = google_workflows_workflow.workflow.id
+  }
+}
