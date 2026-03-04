@@ -190,3 +190,57 @@ resource "google_project_iam_member" "dbt_bigquery_job_user" {
   role    = "roles/bigquery.jobUser"
   member  = "serviceAccount:${google_service_account.service_account.email}"
 }
+
+# Workflow orchestrates the ELT pipeline
+resource "google_workflows_workflow" "workflow" {
+  name            = "retail-dsy-workflow"
+  description     = "Retail Dataset Workflow"
+  source_contents = local.workflow_yaml  # Loaded from locals.tf
+  region          = var.region
+  service_account = google_service_account.service_account.email
+}
+
+# Trigger workflow on GCS file uploads
+resource "google_eventarc_trigger" "trigger" {
+  name            = "retail-dsy-trigger"
+  location        = "eu"
+  service_account = google_service_account.service_account.email
+
+  # Match on file finalized events
+  matching_criteria {
+    attribute = "type"
+    value     = "google.cloud.storage.object.v1.finalized"
+  }
+
+  # Only for our specific bucket
+  matching_criteria {
+    attribute = "bucket"
+    value     = google_storage_bucket.bucket.name
+  }
+
+  # Trigger workflow
+  destination {
+    workflow = google_workflows_workflow.workflow.id
+  }
+}
+
+# CI/CD trigger for all branches
+resource "google_cloudbuild_trigger" "terraform_all_branches" {
+  name        = var.cloudbuild_trigger_name
+  description = "Run Terraform pipeline on every branch push"
+
+  github {
+    owner = var.github_owner
+    name  = var.github_repo_name
+    push {
+      branch = var.cloudbuild_trigger_branch_regex  # ".*" = all branches
+    }
+  }
+
+  filename = "cloudbuild.yaml"
+
+  substitutions = {
+    _TF_STATE_BUCKET = var.tf_state_bucket
+    _TF_STATE_PREFIX = var.tf_state_prefix
+  }
+}
