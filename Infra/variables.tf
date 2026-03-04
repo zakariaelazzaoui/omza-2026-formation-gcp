@@ -1,6 +1,6 @@
 variable "project_id" {
   type        = string
-  default     = "retail-etl"
+  default     = "omza-etl"
   description = "The project id"
 }
 
@@ -12,7 +12,7 @@ variable "region" {
 
 variable "dbt_job_name" {
   type        = string
-  default     = "retail-etl-dbt-job"
+  default     = "omza-etl-dbt-job"
   description = "Cloud Run job name that executes dbt"
 }
 
@@ -34,7 +34,7 @@ variable "github_repo_name" {
 
 variable "cloudbuild_trigger_name" {
   type        = string
-  default     = "retail-etl-all-branches"
+  default     = "omza-etl-all-branches"
   description = "Cloud Build trigger name for Terraform pipeline"
 }
 
@@ -46,7 +46,7 @@ variable "cloudbuild_trigger_branch_regex" {
 
 variable "tf_state_bucket" {
   type        = string
-  default     = "retail-etl-tfstate"
+  default     = "omza-etl-tfstate"
   description = "GCS bucket used by Terraform remote state"
 }
 
