@@ -8,7 +8,7 @@ model-paths:["models"]
 target-path:"target"
 
 models:
-  dbtetl:          
+  dbtetl:
     staging:
       +materialized: view
     transform:
