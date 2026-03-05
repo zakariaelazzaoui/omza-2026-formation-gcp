@@ -120,17 +120,30 @@ resource "google_project_iam_member" "dbt_bigquery_job_user" {
 
 # --- SECRET MANAGER ---
 
+# 1. On active d'abord l'API
+resource "google_project_service" "secretmanager" {
+  service            = "secretmanager.googleapis.com"
+  disable_on_destroy = false
+}
+
+# 2. On crée le secret (en attendant que l'API soit prête)
 resource "google_secret_manager_secret" "dbt_keyfile" {
   secret_id = "dbt-service-account-key"
+
+  # Cette ligne est cruciale pour éviter l'erreur 403: Secret Manager API has not been used in project...
+  depends_on = [google_project_service.secretmanager]
+
   replication {
     auto {}
   }
+
   labels = {
     managed_by = "terraform"
     component  = "dbt"
   }
 }
 
+# 3. On donne l'accès au Service Account
 resource "google_secret_manager_secret_iam_member" "dbt_secret_accessor" {
   secret_id = google_secret_manager_secret.dbt_keyfile.id
   role      = "roles/secretmanager.secretAccessor"
