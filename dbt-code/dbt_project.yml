@@ -8,8 +8,8 @@ model-paths:["models"]
 target-path:"target"
 
 models:
-dbtetl:
-staging:
-+materialized: view
-transform:
-+materialized: table
+  dbtetl:          # 2 espaces ici
+    staging:       # 4 espaces ici
+      +materialized: view
+    transform:     # 4 espaces ici
+      +materialized: table
