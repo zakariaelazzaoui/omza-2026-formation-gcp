@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: omza_dsy
+    database: omza-etl
+    schema: omza_dsy
+    description: "Raw data loaded from GCS via Cloud Workflows"
+    tables:
+      - name: raw_invoice
+        description: "omza transaction data"
+        columns:
+          - name: InvoiceNo
+            description: "Unique transaction identifier"
+          - name: CustomerID
+            description: "Customer identifier"
+          - name: Country
+            description: "Customer country"
+
+      - name: raw_country
+        description: "Country reference data with ISO codes"
+        columns:
+          - name: iso
+            description: "2-letter ISO country code"
+          - name: nicename
+            description: "Country display name"
