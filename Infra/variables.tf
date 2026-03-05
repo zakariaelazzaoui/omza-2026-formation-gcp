@@ -1,6 +1,6 @@
 variable "project_id" {
   type        = string
-  default     = "omza-etl"
+  default     = "omza-2026-formation"
   description = "The project id"
 }
 
