@@ -2,13 +2,13 @@ dbtetl:
 outputs:
     # Method 1: Service Account (Production - Cloud Run)
 dev:
-dataset: retail_dsy
+dataset: omza_dsy
 job_execution_timeout_seconds:300
 job_retries:1
 location: EU
 method: service-account
 keyfile: /secrets/dbt-keyfile
 priority: interactive
-project: retail-etl
+project: omza-2026-formation
 threads:1
 type: bigquery
