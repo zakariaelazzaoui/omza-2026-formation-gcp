@@ -1,11 +1,11 @@
-name:'dbtetl'
-version:'1.0.0'
-config-version:2
+name: 'dbtetl'
+version: '1.0.0'
+config-version: 2
 
-profile:'dbtetl'
+profile: 'dbtetl'
 
-model-paths:["models"]
-target-path:"target"
+model-paths: ["models"]
+target-path: "target"
 
 models:
   dbtetl:
