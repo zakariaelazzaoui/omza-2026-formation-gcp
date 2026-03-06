@@ -122,7 +122,6 @@ resource "google_project_iam_member" "dbt_bigquery_job_user" {
 data "google_storage_project_service_account" "gcs_account" {
   project = var.project_id
 }
-
 resource "google_project_iam_member" "gcs_pubsub_publishing" {
   project = var.project_id
   role    = "roles/pubsub.publisher"
