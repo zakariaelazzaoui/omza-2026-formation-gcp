@@ -118,6 +118,12 @@ resource "google_project_iam_member" "dbt_bigquery_job_user" {
   member  = "serviceAccount:${google_service_account.service_account.email}"
 }
 
+resource "google_project_iam_member" "gcs_pubsub_publishing" {
+  project = var.project_id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:${data.google_storage_project_service_account.gcs_account.email_address}"
+}
+
 # --- SECRET MANAGER ---
 
 # 1. On active d'abord l'API
@@ -213,6 +219,8 @@ resource "google_eventarc_trigger" "trigger" {
   name            = "omza-dsy-trigger"
   location        = "eu"
   service_account = google_service_account.service_account.email
+  # Attend la permission spéciale du compte système GCS
+  depends_on = [google_project_iam_member.gcs_pubsub_publishing]
 
   matching_criteria {
     attribute = "type"
