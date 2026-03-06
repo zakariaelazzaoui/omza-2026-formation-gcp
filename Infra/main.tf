@@ -118,6 +118,7 @@ resource "google_project_iam_member" "dbt_bigquery_job_user" {
   member  = "serviceAccount:${google_service_account.service_account.email}"
 }
 
+
 data "google_storage_project_service_account" "gcs_account" {
   project = var.project_id
 }
