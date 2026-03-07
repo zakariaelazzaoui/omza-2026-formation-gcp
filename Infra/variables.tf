@@ -18,7 +18,7 @@ variable "dbt_job_name" {
 
 variable "dbt_image" {
   type        = string
-  default     = "docker.io/dbtlabs/dbt-bigquery:1.8.2"
+  default     = "index.docker.io/dbtlabs/dbt-bigquery:1.8.2"
   description = "Container image used by Cloud Run Job to run dbt with BigQuery"
 }
 
