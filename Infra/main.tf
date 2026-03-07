@@ -244,10 +244,12 @@ resource "google_eventarc_trigger" "trigger" {
 resource "google_cloudbuild_trigger" "terraform_all_branches" {
   name        = var.cloudbuild_trigger_name
   description = "Run Terraform pipeline on every branch push"
+  location    = var.region  # Obligatoire pour la Gen2
 
-  github {
-    owner = var.github_owner
-    name  = var.github_repo_name
+  repository_event_config {
+    # On construit le chemin vers ton repo connecté en Gen2
+    repository = "projects/${var.project_id}/locations/${var.region}/connections/github-conn/repositories/${var.github_repo_name}"
+    
     push {
       branch = var.cloudbuild_trigger_branch_regex
     }
