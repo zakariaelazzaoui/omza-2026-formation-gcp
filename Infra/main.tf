@@ -165,7 +165,11 @@ resource "google_secret_manager_secret_iam_member" "dbt_secret_accessor" {
 resource "google_cloud_run_v2_job" "dbt" {
   name     = var.dbt_job_name
   location = var.region
-
+  
+  depends_on = [
+    google_project_service.artifact_registry_api
+  ]
+  
   template {
     template {
       service_account = google_service_account.service_account.email
@@ -258,5 +262,11 @@ resource "google_cloudbuild_trigger" "terraform_all_branches" {
   substitutions = {
     _TF_STATE_BUCKET = var.tf_state_bucket
     _TF_STATE_PREFIX = var.tf_state_prefix
+    _AR_REGION           = var.region
+    _AR_REPO             = var.ar_repo_name
+    _DBT_JOB_IMAGE_NAME  = "dbt-etl-job"
+    _DBT_JOB_IMAGE_TAG   = "latest"
+    _GITHUB_OWNER        = var.github_owner
+    _GITHUB_REPO         = var.github_repo_name
   }
 }
