@@ -17,35 +17,35 @@ resource "google_bigquery_dataset" "dataset" {
 
 # Raw country reference table
 resource "google_bigquery_table" "raw_country" {
-  dataset_id = "omza_dsy"
+  dataset_id = google_bigquery_dataset.dataset.dataset_id
   table_id   = "raw_country"
   schema     = <<EOF
   [
-    {"name": "id", "type": "STRING"},
-    {"name": "iso", "type": "STRING"},
-    {"name": "name", "type": "STRING"},
-    {"name": "nicename", "type": "STRING"},
-    {"name": "iso3", "type": "STRING"},
-    {"name": "numcode", "type": "STRING"},
-    {"name": "phonecode", "type": "STRING"}
+    {"name": "id", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "iso", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "name", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "nicename", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "iso3", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "numcode", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "phonecode", "type": "STRING", "mode": "NULLABLE"}
   ]
   EOF
 }
 
 # Raw invoice transactions table
 resource "google_bigquery_table" "raw_invoice" {
-  dataset_id = "omza_dsy"
+  dataset_id = google_bigquery_dataset.dataset.dataset_id
   table_id   = "raw_invoice"
   schema     = <<EOF
   [
-    {"name": "InvoiceNo", "type": "STRING"},
-    {"name": "StockCode", "type": "STRING"},
-    {"name": "Description", "type": "STRING"},
-    {"name": "Quantity", "type": "STRING"},
-    {"name": "InvoiceDate", "type": "STRING"},
-    {"name": "UnitPrice", "type": "STRING"},
-    {"name": "CustomerID", "type": "STRING"},
-    {"name": "Country", "type": "STRING"}
+	{"name": "InvoiceNo", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "StockCode", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "Description", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "Quantity", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "InvoiceDate", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "UnitPrice", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "CustomerID", "type": "STRING", "mode": "NULLABLE"},
+    {"name": "Country", "type": "STRING", "mode": "NULLABLE"}
   ]
   EOF
 }
