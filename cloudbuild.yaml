@@ -77,8 +77,8 @@ _AR_REGION: europe-west1
 _AR_REPO: dbt-images
 _DBT_JOB_IMAGE_NAME: dbt-etl-job
 _DBT_JOB_IMAGE_TAG: latest
-_GITHUB_OWNER:"zakariaelazzaoui"
-_GITHUB_REPO:"omza-2026-formation-gcp"
+_GITHUB_OWNER: "zakariaelazzaoui"
+_GITHUB_REPO: "omza-2026-formation-gcp"
 
 options:
 logging: CLOUD_LOGGING_ONLY
