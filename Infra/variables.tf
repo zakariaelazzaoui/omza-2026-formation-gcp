@@ -18,17 +18,19 @@ variable "dbt_job_name" {
 
 variable "dbt_image" {
   type        = string
-  default     = "index.docker.io/dbtlabs/dbt-bigquery:1.8.2"
+  default     = "us-docker.pkg.dev/dbt-labs/dbt-bigquery/dbt-bigquery:1.8.2"
   description = "Container image used by Cloud Run Job to run dbt with BigQuery"
 }
 
 variable "github_owner" {
   type        = string
+  default     = "zakariaelazzaoui"  
   description = "GitHub owner/org that hosts the repository"
 }
 
 variable "github_repo_name" {
   type        = string
+  default     = "omza-2026-formation-gcp"
   description = "GitHub repository name connected to Cloud Build"
 }
 
