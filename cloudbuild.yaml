@@ -57,6 +57,7 @@ steps:
       - |
         terraform plan \
           -var="project_id=${PROJECT_ID}" \
+          -var="region=${_AR_REGION}" \
           -var="github_owner=${_GITHUB_OWNER}" \
           -var="github_repo_name=${_GITHUB_REPO}" \
           -var="dbt_image=${_AR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO}/${_DBT_JOB_IMAGE_NAME}:${_DBT_JOB_IMAGE_TAG}" \

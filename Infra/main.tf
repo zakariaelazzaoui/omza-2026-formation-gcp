@@ -51,6 +51,25 @@ resource "google_bigquery_table" "raw_invoice" {
 }
 
 # --- SERVICES & REPOSITORY ---
+resource "google_project_service" "bigquery_api" {
+  service = "bigquery.googleapis.com"
+}
+
+resource "google_project_service" "storage_api" {
+  service = "storage.googleapis.com"
+}
+
+resource "google_project_service" "eventarc_api" {
+  service = "eventarc.googleapis.com"
+}
+
+resource "google_project_service" "workflows_api" {
+  service = "workflows.googleapis.com"
+}
+
+resource "google_project_service" "pubsub_api" {
+  service = "pubsub.googleapis.com"
+}
 
 resource "google_project_service" "service" {
   service = "iam.googleapis.com"
@@ -128,6 +147,12 @@ resource "google_project_iam_member" "gcs_pubsub_publishing" {
   member  = "serviceAccount:${data.google_storage_project_service_account.gcs_account.email_address}"
 }
 
+resource "google_project_iam_member" "artifact_registry_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:${google_service_account.service_account.email}"
+}
+
 # --- SECRET MANAGER ---
 
 # 1. On active d'abord l'API
@@ -167,7 +192,8 @@ resource "google_cloud_run_v2_job" "dbt" {
   location = var.region
   
   depends_on = [
-    google_project_service.artifact_registry_api
+    google_project_service.artifact_registry_api,
+	google_artifact_registry_repository.dbt_images
   ]
   
   template {
@@ -225,7 +251,7 @@ resource "google_workflows_workflow" "workflow" {
 
 resource "google_eventarc_trigger" "trigger" {
   name            = "omza-dsy-trigger"
-  location        = "eu"
+  location        = var.region
   service_account = google_service_account.service_account.email
   # Attend la permission spéciale du compte système GCS
   depends_on = [google_project_iam_member.gcs_pubsub_publishing]
