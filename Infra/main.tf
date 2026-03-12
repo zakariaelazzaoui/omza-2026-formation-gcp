@@ -278,16 +278,6 @@ resource "google_eventarc_trigger" "trigger" {
     workflow = google_workflows_workflow.workflow.id
   }
   
-  transport {
-    pubsub {
-      topic = google_pubsub_topic.eventarc_topic.id
-    }
-  }
-}
-
-# ajouter un topic Pub/Sub
-resource "google_pubsub_topic" "eventarc_topic" {
-  name = "omza-eventarc-topic"
 }
 
 resource "google_cloudbuild_trigger" "terraform_all_branches" {
