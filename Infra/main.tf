@@ -259,7 +259,7 @@ resource "google_workflows_workflow" "workflow" {
 
 resource "google_eventarc_trigger" "trigger" {
   name            = "omza-dsy-trigger"
-  location        = "EU"
+  location        = "europe-west1"
   service_account = google_service_account.service_account.email
   # Attend la permission spéciale du compte système GCS
   depends_on = [google_project_iam_member.gcs_pubsub_publishing]
@@ -277,6 +277,17 @@ resource "google_eventarc_trigger" "trigger" {
   destination {
     workflow = google_workflows_workflow.workflow.id
   }
+  
+  transport {
+    pubsub {
+      topic = google_pubsub_topic.eventarc_topic.id
+    }
+  }
+}
+
+# ajouter un topic Pub/Sub
+resource "google_pubsub_topic" "eventarc_topic" {
+  name = "omza-eventarc-topic"
 }
 
 resource "google_cloudbuild_trigger" "terraform_all_branches" {
