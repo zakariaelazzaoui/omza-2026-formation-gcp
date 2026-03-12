@@ -259,7 +259,7 @@ resource "google_workflows_workflow" "workflow" {
 
 resource "google_eventarc_trigger" "trigger" {
   name            = "omza-dsy-trigger"
-  location        = "europe-west1"
+  location        = "eu"
   service_account = google_service_account.service_account.email
   # Attend la permission spéciale du compte système GCS
   depends_on = [google_project_iam_member.gcs_pubsub_publishing]
