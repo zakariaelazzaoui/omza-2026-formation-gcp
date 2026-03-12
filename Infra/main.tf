@@ -178,7 +178,13 @@ resource "google_secret_manager_secret" "dbt_keyfile" {
   }
 }
 
-# 3. On donne l'accès au Service Account
+# 3. Cela crée une première version du secret
+resource "google_secret_manager_secret_version" "dbt_keyfile_version" {
+  secret      = google_secret_manager_secret.dbt_keyfile.id
+  secret_data = "placeholder"
+}
+
+# 4. On donne l'accès au Service Account
 resource "google_secret_manager_secret_iam_member" "dbt_secret_accessor" {
   secret_id = google_secret_manager_secret.dbt_keyfile.id
   role      = "roles/secretmanager.secretAccessor"
@@ -253,7 +259,7 @@ resource "google_workflows_workflow" "workflow" {
 
 resource "google_eventarc_trigger" "trigger" {
   name            = "omza-dsy-trigger"
-  location        = var.region
+  location        = "EU"
   service_account = google_service_account.service_account.email
   # Attend la permission spéciale du compte système GCS
   depends_on = [google_project_iam_member.gcs_pubsub_publishing]
