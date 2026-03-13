@@ -2,7 +2,7 @@ steps:
   # Step 1: Initialize Terraform
   - name: hashicorp/terraform:1.6.6
     id: terraform-init
-    dir: infra
+    dir: Infra
     entrypoint: sh
     args:
       - -c
@@ -14,7 +14,7 @@ steps:
   # Step 2: Apply Artifact Registry first
   - name: hashicorp/terraform:1.6.6
     id: terraform-apply-ar-repo
-    dir: infra
+    dir: Infra
     entrypoint: sh
     args:
       - -c
@@ -50,7 +50,7 @@ steps:
   # Step 5: Terraform plan with custom image
   - name: hashicorp/terraform:1.6.6
     id: terraform-plan
-    dir: infra
+    dir: Infra
     entrypoint: sh
     args:
       - -c
@@ -66,7 +66,7 @@ steps:
   # Step 6: Terraform apply
   - name: hashicorp/terraform:1.6.6
     id: terraform-apply
-    dir: infra
+    dir: Infra
     entrypoint: sh
     args:
       - -c
