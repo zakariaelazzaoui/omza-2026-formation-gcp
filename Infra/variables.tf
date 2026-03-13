@@ -42,7 +42,7 @@ variable "cloudbuild_trigger_name" {
 
 variable "cloudbuild_trigger_branch_regex" {
   type        = string
-  default     = ".*"
+  default     = "^.*$"
   description = "Regex used by Cloud Build trigger to match branches"
 }
 
