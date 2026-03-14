@@ -281,7 +281,6 @@ resource "google_eventarc_trigger" "trigger" {
 }
 
 resource "google_cloudbuild_trigger" "terraform_all_branches" {
-  project     = var.project_id
   name        = var.cloudbuild_trigger_name
   description = "Run Terraform pipeline on every branch push"
 
@@ -302,5 +301,7 @@ resource "google_cloudbuild_trigger" "terraform_all_branches" {
     _AR_REPO             = var.ar_repo_name
     _DBT_JOB_IMAGE_NAME  = "dbt-etl-job"
     _DBT_JOB_IMAGE_TAG   = "latest"
+    _GITHUB_OWNER       = var.github_owner
+    _GITHUB_REPO        = var.github_repo_name
   }
 }

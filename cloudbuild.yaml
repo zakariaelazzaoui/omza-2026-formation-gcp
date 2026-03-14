@@ -73,10 +73,6 @@ steps:
       - |
         echo "Terraform apply"
         terraform apply -auto-approve tfplan
-
-substitutions:
-    _GITHUB_OWNER: "zakariaelazzaoui"
-    _GITHUB_REPO: "omza-2026-formation-gcp"
-    
+   
 options:
   logging: CLOUD_LOGGING_ONLY
