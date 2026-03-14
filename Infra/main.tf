@@ -284,9 +284,9 @@ resource "google_cloudbuild_trigger" "terraform_all_branches" {
   name        = var.cloudbuild_trigger_name
   description = "Run Terraform pipeline on every branch push"
 
-  github {
-    owner = var.github_owner
-    name  = var.github_repo_name
+  repository_event_config {
+    repository = "projects/${var.project_id}/locations/global/connections/github/repositories/${var.github_repo_name}"
+
     push {
       branch = var.cloudbuild_trigger_branch_regex
     }
