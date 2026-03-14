@@ -294,7 +294,8 @@ resource "google_cloudbuild_trigger" "terraform_all_branches" {
   }
 
   filename = "cloudbuild.yaml"
-
+  service_account = "projects/${var.project_id}/serviceAccounts/omza-etl-sa@${var.project_id}.iam.gserviceaccount.com"
+  
   substitutions = {
     _TF_STATE_BUCKET = var.tf_state_bucket
     _TF_STATE_PREFIX = var.tf_state_prefix
