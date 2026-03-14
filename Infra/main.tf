@@ -286,7 +286,7 @@ resource "google_cloudbuild_trigger" "terraform_all_branches" {
   description = "Run Terraform pipeline on every branch push"
 
   repository_event_config {
-    repository = "projects/${var.project_id}/locations/europe-west1/connections/omza-git/repositories/${var.github_repo_name}"
+      repository = "projects/omza-2026-formation/locations/europe-west1/connections/omza-git/repositories/zakariaelazzaoui-omza-2026-formation-gcp"
 
     push {
       branch = var.cloudbuild_trigger_branch_regex
