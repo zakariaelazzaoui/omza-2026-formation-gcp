@@ -281,6 +281,7 @@ resource "google_eventarc_trigger" "trigger" {
 }
 
 resource "google_cloudbuild_trigger" "terraform_all_branches" {
+  location = "europe-west1"
   name        = var.cloudbuild_trigger_name
   description = "Run Terraform pipeline on every branch push"
 
