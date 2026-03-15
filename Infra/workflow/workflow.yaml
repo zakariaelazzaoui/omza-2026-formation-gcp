@@ -13,14 +13,14 @@ main:
     - load-countries-to-bigquery :
         call: googleapis.bigquery.v2.jobs.insert
         args:
-          projectId: "omza-2026-formation"
+          projectId: ${project_id}
           body:
             configuration:
               load:
-                sourceUris: "gs://omza-etl-dsy/dataset/countries.csv"
+                sourceUris: ${raw_files_source_uri+"countries.csv"}
                 destinationTable:
-                  projectId: "omza-2026-formation"
-                  datasetId: "omza_dsy"
+                  projectId: ${project_id}
+                  datasetId: ${dataset}
                   tableId: "raw_country"
                 skipLeadingRows: 1
                 schema:
@@ -39,21 +39,21 @@ main:
                       type: "STRING"
                     - name: "phonecode"
                       type: "STRING"
-                createDisposition: "CREATE_NEVER"
-                writeDisposition: "WRITE_TRUNCATE"
+                createDisposition: ${raw_bq_create_disposition}
+                writeDisposition: ${raw_bq_write_disposition}
         result: loadCountryRawToBqResult
 
     - load-invoices-to-bigquery :
         call: googleapis.bigquery.v2.jobs.insert
         args:
-          projectId: "omza-2026-formation"
+          projectId: ${project_id}
           body:
             configuration:
               load:
-                sourceUris: "gs://omza-etl-dsy/dataset/invoices.csv"
+                sourceUris: ${raw_files_source_uri+"invoices.csv"}
                 destinationTable:
-                  projectId: "omza-2026-formation"
-                  datasetId: "omza_dsy"
+                  projectId: ${project_id}
+                  datasetId: ${dataset}
                   tableId: "raw_invoice"
                 skipLeadingRows: 1
                 schema:
@@ -74,8 +74,8 @@ main:
                       type: "STRING"
                     - name: "Country"
                       type: "STRING"
-                createDisposition: "CREATE_NEVER"
-                writeDisposition: "WRITE_TRUNCATE"
+                createDisposition: ${raw_bq_create_disposition}
+                writeDisposition: ${raw_bq_write_disposition}
         result: loadInvoiceRawToBqResult
     # execute Cloud Run job to trigger dbt
     - trigger-dbt-job:
