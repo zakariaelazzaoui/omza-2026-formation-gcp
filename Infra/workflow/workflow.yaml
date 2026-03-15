@@ -17,10 +17,10 @@ main:
           body:
             configuration:
               load:
-                sourceUris: ${raw_files_source_uri+"countries.csv"}
+                sourceUris: "gs://omza-etl-dsy/dataset/countries.csv"
                 destinationTable:
                   projectId: "omza-2026-formation"
-                  datasetId: ${dataset}
+                  datasetId: "omza_dsy"
                   tableId: "raw_country"
                 skipLeadingRows: 1
                 schema:
@@ -39,8 +39,8 @@ main:
                       type: "STRING"
                     - name: "phonecode"
                       type: "STRING"
-                createDisposition: ${raw_bq_create_disposition}
-                writeDisposition: ${raw_bq_write_disposition}
+                createDisposition: "CREATE_NEVER"
+                writeDisposition: "WRITE_TRUNCATE"
         result: loadCountryRawToBqResult
 
     - load-invoices-to-bigquery :
@@ -50,10 +50,10 @@ main:
           body:
             configuration:
               load:
-                sourceUris: ${raw_files_source_uri+"invoices.csv"}
+                sourceUris: "gs://omza-etl-dsy/dataset/invoices.csv"
                 destinationTable:
                   projectId: "omza-2026-formation"
-                  datasetId: ${dataset}
+                  datasetId: "omza_dsy"
                   tableId: "raw_invoice"
                 skipLeadingRows: 1
                 schema:
@@ -74,8 +74,8 @@ main:
                       type: "STRING"
                     - name: "Country"
                       type: "STRING"
-                createDisposition: ${raw_bq_create_disposition}
-                writeDisposition: ${raw_bq_write_disposition}
+                createDisposition: "CREATE_NEVER"
+                writeDisposition: "WRITE_TRUNCATE"
         result: loadInvoiceRawToBqResult
     # execute Cloud Run job to trigger dbt
     - trigger-dbt-job:
