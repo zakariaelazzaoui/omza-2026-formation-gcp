@@ -13,13 +13,13 @@ main:
     - load-countries-to-bigquery :
         call: googleapis.bigquery.v2.jobs.insert
         args:
-          projectId: ${project_id}
+          projectId: "omza-2026-formation"
           body:
             configuration:
               load:
                 sourceUris: ${raw_files_source_uri+"countries.csv"}
                 destinationTable:
-                  projectId: ${project_id}
+                  projectId: "omza-2026-formation"
                   datasetId: ${dataset}
                   tableId: "raw_country"
                 skipLeadingRows: 1
@@ -46,13 +46,13 @@ main:
     - load-invoices-to-bigquery :
         call: googleapis.bigquery.v2.jobs.insert
         args:
-          projectId: ${project_id}
+          projectId: "omza-2026-formation"
           body:
             configuration:
               load:
                 sourceUris: ${raw_files_source_uri+"invoices.csv"}
                 destinationTable:
-                  projectId: ${project_id}
+                  projectId: "omza-2026-formation"
                   datasetId: ${dataset}
                   tableId: "raw_invoice"
                 skipLeadingRows: 1
