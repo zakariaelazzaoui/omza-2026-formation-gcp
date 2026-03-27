@@ -9,7 +9,7 @@ WITH datetime_cte AS (
         PARSE_DATETIME('%m/%d/%y %H:%M', InvoiceDate)
       ELSE NULL
     END AS date_part,
-  FROM {{ source('retail_dsy', 'raw_invoice') }}
+  FROM {{ source('omza_dsy', 'raw_invoice') }}
   WHERE InvoiceDate IS NOT NULL
 )
 SELECT
