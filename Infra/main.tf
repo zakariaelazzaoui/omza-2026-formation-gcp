@@ -123,6 +123,7 @@ resource "google_project_iam_member" "eventarc_gcs_reader" {
   project = var.project_id
   role    = "roles/storage.objectViewer"
   member  = "serviceAccount:${google_service_account.service_account.email}"
+}
 
 resource "google_project_iam_member" "eventarc_admin" {
   project = var.project_id
