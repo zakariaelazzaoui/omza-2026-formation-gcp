@@ -122,7 +122,7 @@ resource "google_project_iam_member" "workflow_invoker" {
 resource "google_project_iam_member" "eventarc_gcs_reader" {
   project = var.project_id
   role    = "roles/storage.objectViewer"
-  member  = "serviceAccount:${google_service_account.service_account.email}"
+  member = "serviceAccount:service-${var.project_number}@gcp-sa-eventarc.iam.gserviceaccount.com"
 }
 
 resource "google_project_iam_member" "eventarc_admin" {
