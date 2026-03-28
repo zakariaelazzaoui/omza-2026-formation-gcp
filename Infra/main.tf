@@ -201,9 +201,7 @@ resource "google_cloud_run_v2_job" "dbt" {
     google_project_service.artifact_registry_api,
 	google_artifact_registry_repository.dbt_images
   ]
-  lifecycle {
-    ignore_changes = [template[0].template[0].containers[0].image]
-  }
+
   template {
     template {
       service_account = google_service_account.service_account.email
