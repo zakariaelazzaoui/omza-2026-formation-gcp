@@ -13,14 +13,14 @@ main:
     - load-countries-to-bigquery :
         call: googleapis.bigquery.v2.jobs.insert
         args:
-          projectId: $${project_id}
+          projectId: ${project_id}
           body:
             configuration:
               load:
-                sourceUris: $${raw_files_source_uri+"countries.csv"}
+                sourceUris: ${raw_files_source_uri+"countries.csv"}
                 destinationTable:
-                  projectId: $${project_id}
-                  datasetId: $${dataset}
+                  projectId: ${project_id}
+                  datasetId: ${dataset}
                   tableId: "raw_country"
                 skipLeadingRows: 1
                 schema:
@@ -39,21 +39,21 @@ main:
                       type: "STRING"
                     - name: "phonecode"
                       type: "STRING"
-                createDisposition: $${raw_bq_create_disposition}
-                writeDisposition: $${raw_bq_write_disposition}
+                createDisposition: ${raw_bq_create_disposition}
+                writeDisposition: ${raw_bq_write_disposition}
         result: loadCountryRawToBqResult
 
     - load-invoices-to-bigquery :
         call: googleapis.bigquery.v2.jobs.insert
         args:
-          projectId: $${project_id}
+          projectId: ${project_id}
           body:
             configuration:
               load:
-                sourceUris: $${raw_files_source_uri+"invoices.csv"}
+                sourceUris: ${raw_files_source_uri+"invoices.csv"}
                 destinationTable:
-                  projectId: $${project_id}
-                  datasetId: $${dataset}
+                  projectId: ${project_id}
+                  datasetId: ${dataset}
                   tableId: "raw_invoice"
                 skipLeadingRows: 1
                 schema:
@@ -74,17 +74,17 @@ main:
                       type: "STRING"
                     - name: "Country"
                       type: "STRING"
-                createDisposition: $${raw_bq_create_disposition}
-                writeDisposition: $${raw_bq_write_disposition}
+                createDisposition: ${raw_bq_create_disposition}
+                writeDisposition: ${raw_bq_write_disposition}
         result: loadInvoiceRawToBqResult
     # execute Cloud Run job to trigger dbt
     - trigger-dbt-job:
         call: http.post
         args:
-          url: $${"https://run.googleapis.com/v2/projects/" + project_id + "/locations/" + region + "/jobs/" + dbt_job_name + ":run"}
+          url: ${"https://run.googleapis.com/v2/projects/" + project_id + "/locations/" + region + "/jobs/" + dbt_job_name + ":run"}
           auth:
             type: OAuth2
         result: dbtJobResult
 
     - returnResult:
-        return: $${dbtJobResult}
+        return: ${dbtJobResult}
