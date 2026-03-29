@@ -1,0 +1,20 @@
+.git
+.idea/
+.gitignore
+node_modules/
+.terraform/
+*.tfstate
+*.tfstate.backup
+__pycache__/
+*.pyc
+.env
+venv/
+.venv
+
+# terraform in Infra/
+Infra/.terraform
+Infra/terraform.tfstate
+Infra/terraform.tfstate.backup
+Infra/*.json
+infa/terraform.plan
+Infra/.terraform.lock.hcl
