@@ -109,7 +109,6 @@ resource "google_project_iam_member" "storage_object_viewer" {
 
 resource "google_service_account_iam_member" "cloudbuild_sa_user" {
   service_account_id = google_service_account.service_account.name
-  project = var.project_id
   role    = "roles/iam.serviceAccountUser"
   member  = "serviceAccount:${google_service_account.service_account.email}"
 }
