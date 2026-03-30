@@ -198,6 +198,12 @@ resource "google_secret_manager_secret_iam_member" "dbt_secret_accessor" {
 resource "google_cloud_run_v2_job" "dbt" {
   name     = var.dbt_job_name
   location = var.region
+
+  lifecycle {
+    ignore_changes = [
+      template[0].template[0].containers[0].image
+    ]
+  }
   
   depends_on = [
     google_project_service.artifact_registry_api,
