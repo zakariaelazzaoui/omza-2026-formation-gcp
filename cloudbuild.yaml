@@ -73,6 +73,19 @@ steps:
       - |
         echo "Terraform apply"
         terraform apply -auto-approve tfplan
-   
+
+  # Step 7: Update Cloud Run Job image automatically
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    id: update-cloud-run-job-image
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -e
+        DEST_IMAGE="${_AR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO}/${_DBT_JOB_IMAGE_NAME}:${_DBT_JOB_IMAGE_TAG}"
+
+        gcloud run jobs update omza-etl-dbt-job \
+          --image="$$DEST_IMAGE" \
+          --region="${_AR_REGION}"
 options:
   logging: CLOUD_LOGGING_ONLY

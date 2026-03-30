@@ -107,6 +107,11 @@ resource "google_project_iam_member" "storage_object_viewer" {
   member  = "serviceAccount:${google_service_account.service_account.email}"
 }
 
+resource "google_service_account_iam_member" "cloudbuild_sa_user" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${google_service_account.service_account.email}"
+}
 
 resource "google_project_iam_member" "workflow_invoker" {
   project = var.project_id
@@ -309,7 +314,8 @@ resource "google_cloudbuild_trigger" "terraform_all_branches" {
     _AR_REPO             = var.ar_repo_name
     _DBT_JOB_IMAGE_NAME  = "dbt-etl-job"
     _DBT_JOB_IMAGE_TAG   = "latest"
-    _GITHUB_OWNER       = var.github_owner
-    _GITHUB_REPO        = var.github_repo_name
+	_DB_JOB_NAME         = var.dbt_job_name
+    _GITHUB_OWNER        = var.github_owner
+    _GITHUB_REPO         = var.github_repo_name
   }
 }
