@@ -160,6 +160,12 @@ resource "google_project_iam_member" "artifact_registry_reader" {
   member  = "serviceAccount:${google_service_account.service_account.email}"
 }
 
+resource "google_project_iam_member" "artifact_registry_writer" {
+  project = var.project_id
+  role    = "roles/artifactregistry.writer"
+  member  = "serviceAccount:${google_service_account.service_account.email}"
+}
+
 # --- SECRET MANAGER ---
 
 # 1. On active d'abord l'API
