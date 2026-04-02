@@ -1,4 +1,4 @@
-FROM docker.io/dbtlabs/dbt-bigquery:1.9.0
+FROM ghcr.io/dbt-labs/dbt-bigquery:1.9.latest
 
 COPY . /app
 WORKDIR /app
