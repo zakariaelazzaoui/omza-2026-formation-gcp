@@ -1,13 +1,15 @@
-dbtetl:outputs:
+dbtetl:
+  target: dev
+  outputs:
+  # Method 1: Service Account (Production - Cloud Run)
     dev:
-      # Method 1: Service Account (Production - Cloud Run)
+      type: bigquery
+      method: service-account
+      project: omza-2026-formation
       dataset: omza_dsy
+      location: EU
+      keyfile: /secrets/dbt-keyfile
+      threads: 1
       job_execution_timeout_seconds: 300
       job_retries: 1
-      location: EU
-      method: service-account
-      keyfile: /secrets/dbt-keyfile
       priority: interactive
-      project: omza-2026-formation
-      threads: 1
-      type: bigquery
