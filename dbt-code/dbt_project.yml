@@ -9,7 +9,5 @@ target-path: "target"
 
 models:
   dbtetl:
-    staging:
-      +materialized: view
     transform:
       +materialized: table
