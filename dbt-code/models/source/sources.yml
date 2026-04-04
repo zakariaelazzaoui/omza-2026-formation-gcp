@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: omza_dsy
-    database: omza-etl
+    database: omza-2026-formation
     schema: omza_dsy
     description: "Raw data loaded from GCS via Cloud Workflows"
     tables:
