@@ -191,12 +191,6 @@ resource "google_secret_manager_secret" "dbt_keyfile" {
   }
 }
 
-# 3. Cela crée une première version du secret
-resource "google_secret_manager_secret_version" "dbt_keyfile_version" {
-  secret      = google_secret_manager_secret.dbt_keyfile.id
-  secret_data = "placeholder"
-}
-
 # 4. On donne l'accès au Service Account
 resource "google_secret_manager_secret_iam_member" "dbt_secret_accessor" {
   secret_id = google_secret_manager_secret.dbt_keyfile.id
